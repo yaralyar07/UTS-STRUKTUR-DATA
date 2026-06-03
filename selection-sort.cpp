@@ -2,7 +2,8 @@
 using namespace std;  // agar tidak perlu menulis std:: setiap saat
 
 int main() {
-    int n;  // variabel untuk menyimpan panjang array
+    int n;     // variabel untuk menyimpan panjang array
+    int mode;  // variabel untuk menyimpan pilihan mode (1=ascending, 2=descending)
 
     cout << "=== Selection Sort ===" << endl;
     cout << "Masukkan panjang array: ";
@@ -16,6 +17,13 @@ int main() {
         cin >> arr[i];                   // baca nilai ke-i dari user dan simpan ke array
     }
 
+    // --- Pilihan mode pengurutan ---
+    cout << "\nPilih mode pengurutan:" << endl;
+    cout << "  1. Ascending  (kecil ke besar)" << endl;
+    cout << "  2. Descending (besar ke kecil)" << endl;
+    cout << "Pilihan: ";
+    cin >> mode;  // baca pilihan mode dari user
+
     // --- Output array sebelum diurutkan ---
     cout << "\nArray sebelum diurutkan : [ ";
     for (int i = 0; i < n; i++) {        // iterasi setiap elemen array
@@ -26,18 +34,21 @@ int main() {
 
     // --- Proses Selection Sort ---
     for (int i = 0; i < n - 1; i++) {       // iterasi dari elemen pertama sampai kedua terakhir
-        int minIdx = i;                      // asumsikan elemen ke-i adalah nilai minimum sementara
+        int targetIdx = i;                   // asumsikan elemen ke-i adalah nilai target sementara
 
-        for (int j = i + 1; j < n; j++) {   // cari nilai minimum di sisa array (i+1 sampai akhir)
-            if (arr[j] < arr[minIdx]) {      // jika ditemukan elemen yang lebih kecil
-                minIdx = j;                  // perbarui indeks minimum
+        for (int j = i + 1; j < n; j++) {   // cari nilai target di sisa array (i+1 sampai akhir)
+            if (mode == 1 && arr[j] < arr[targetIdx]) {  // mode ascending: cari nilai terkecil
+                targetIdx = j;                            // perbarui indeks target jika lebih kecil
+            }
+            if (mode == 2 && arr[j] > arr[targetIdx]) {  // mode descending: cari nilai terbesar
+                targetIdx = j;                            // perbarui indeks target jika lebih besar
             }
         }
 
-        if (minIdx != i) {                   // jika minimum bukan di posisi i (perlu ditukar)
-            int temp = arr[minIdx];          // simpan nilai minimum ke variabel sementara
-            arr[minIdx] = arr[i];            // isi posisi minimum dengan nilai di posisi i
-            arr[i] = temp;                   // isi posisi i dengan nilai minimum tadi
+        if (targetIdx != i) {                   // jika target bukan di posisi i (perlu ditukar)
+            int temp = arr[targetIdx];          // simpan nilai target ke variabel sementara
+            arr[targetIdx] = arr[i];            // isi posisi target dengan nilai di posisi i
+            arr[i] = temp;                      // isi posisi i dengan nilai target tadi
         }
     }
 
