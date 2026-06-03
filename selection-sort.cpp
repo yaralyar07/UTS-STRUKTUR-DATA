@@ -1,20 +1,20 @@
-#include <iostream>   // library untuk input/output (cin, cout)
-using namespace std;  // agar tidak perlu menulis std:: setiap saat
+#include <iostream>
+using namespace std;
 
 int main() {
-    int n;     // variabel untuk menyimpan panjang array
-    int mode;  // variabel untuk menyimpan pilihan mode (1=ascending, 2=descending)
+    int n;     // jumlah data yang akan dimasukkan ke dalam array
+    int mode;  // pilihan urutan: 1 = ascending, 2 = descending
 
     cout << "=== Selection Sort ===" << endl;
     cout << "Masukkan panjang array: ";
-    cin >> n;  // baca panjang array dari user
+    cin >> n;  // input banyak elemen array
 
-    int arr[n];  // deklarasi array dengan panjang n
+    int arr[n];  // arr adalah array untuk menyimpan semua angka yang akan diurutkan
 
     cout << "Masukkan " << n << " nilai array:" << endl;
-    for (int i = 0; i < n; i++) {       // ulangi sebanyak n kali
+    for (int i = 0; i < n; i++) {       // i adalah indeks array: 0, 1, 2, ... sampai n-1
         cout << "  arr[" << i << "] = ";
-        cin >> arr[i];                   // baca nilai ke-i dari user dan simpan ke array
+        cin >> arr[i];                   // simpan input user ke arr pada indeks ke-i
     }
 
     // --- Pilihan mode pengurutan ---
@@ -22,43 +22,45 @@ int main() {
     cout << "  1. Ascending  (kecil ke besar)" << endl;
     cout << "  2. Descending (besar ke kecil)" << endl;
     cout << "Pilihan: ";
-    cin >> mode;  // baca pilihan mode dari user
+    cin >> mode;  // simpan pilihan user ke variabel mode
 
     // --- Output array sebelum diurutkan ---
     cout << "\nArray sebelum diurutkan : [ ";
-    for (int i = 0; i < n; i++) {        // iterasi setiap elemen array
-        cout << arr[i];                  // cetak nilai elemen ke-i
-        if (i < n - 1) cout << ", ";     // cetak koma pemisah, kecuali elemen terakhir
+    for (int i = 0; i < n; i++) {        // i dipakai untuk membaca isi array dari awal sampai akhir
+        cout << arr[i];                  // tampilkan nilai array pada indeks ke-i
+        if (i < n - 1) cout << ", ";     // tampilkan koma jika belum elemen terakhir
     }
     cout << " ]" << endl;
 
     // --- Proses Selection Sort ---
-    for (int i = 0; i < n - 1; i++) {       // iterasi dari elemen pertama sampai kedua terakhir
-        int targetIdx = i;                   // asumsikan elemen ke-i adalah nilai target sementara
+    for (int i = 0; i < n - 1; i++) {       // i menunjukkan posisi yang sedang akan diisi nilai yang benar
+        int targetIdx = i;                   // targetIdx menyimpan indeks nilai terbaik saat pencarian
+                                              // jika ascending: indeks nilai terkecil
+                                              // jika descending: indeks nilai terbesar
 
-        for (int j = i + 1; j < n; j++) {   // cari nilai target di sisa array (i+1 sampai akhir)
-            if (mode == 1 && arr[j] < arr[targetIdx]) {  // mode ascending: cari nilai terkecil
-                targetIdx = j;                            // perbarui indeks target jika lebih kecil
+        for (int j = i + 1; j < n; j++) {   // j dipakai untuk mengecek sisa elemen setelah posisi i
+            if (mode == 1 && arr[j] < arr[targetIdx]) {  // bandingkan jika mode ascending
+                targetIdx = j;                            // kalau arr[j] lebih kecil, simpan indeks j sebagai target baru
             }
-            if (mode == 2 && arr[j] > arr[targetIdx]) {  // mode descending: cari nilai terbesar
-                targetIdx = j;                            // perbarui indeks target jika lebih besar
+            if (mode == 2 && arr[j] > arr[targetIdx]) {  // bandingkan jika mode descending
+                targetIdx = j;                            // kalau arr[j] lebih besar, simpan indeks j sebagai target baru
             }
         }
 
-        if (targetIdx != i) {                   // jika target bukan di posisi i (perlu ditukar)
-            int temp = arr[targetIdx];          // simpan nilai target ke variabel sementara
-            arr[targetIdx] = arr[i];            // isi posisi target dengan nilai di posisi i
-            arr[i] = temp;                      // isi posisi i dengan nilai target tadi
+        if (targetIdx != i) {                   // kalau targetIdx berbeda dari i, berarti datanya perlu ditukar
+            int temp = arr[targetIdx];          // temp adalah tempat sementara untuk menyimpan nilai target
+            arr[targetIdx] = arr[i];            // pindahkan nilai di posisi i ke posisi targetIdx
+            arr[i] = temp;                      // pindahkan nilai yang tadi disimpan di temp ke posisi i
         }
     }
 
     // --- Output array setelah diurutkan ---
     cout << "Array setelah selection sort: [ ";
-    for (int i = 0; i < n; i++) {        // iterasi setiap elemen array yang sudah terurut
-        cout << arr[i];                  // cetak nilai elemen ke-i
-        if (i < n - 1) cout << ", ";     // cetak koma pemisah, kecuali elemen terakhir
+    for (int i = 0; i < n; i++) {        // i dipakai lagi untuk menampilkan hasil akhir array
+        cout << arr[i];                  // tampilkan isi arr pada indeks ke-i
+        if (i < n - 1) cout << ", ";     // tampilkan koma jika belum indeks terakhir
     }
     cout << " ]" << endl;
 
-    return 0;  // program selesai dengan sukses
+    return 0;  // program selesai
 }
